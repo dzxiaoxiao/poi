@@ -1,5 +1,6 @@
 import export.entity.TableHeader;
 import export.excel.ExportExcel;
+import export.excel.NomalExportExcel;
 import org.apache.poi.ss.usermodel.Font;
 import org.junit.Test;
 
@@ -10,6 +11,30 @@ import java.util.List;
 import java.util.Map;
 
 public class TestExportExcel {
+
+    @Test
+    public void test02() throws IOException {
+        List<TableHeader> tableHeaderList = new ArrayList<>();
+        for (int j = 0; j < 20; j++) {
+            TableHeader tableHeader = new TableHeader();
+            tableHeader.setHeaderText("第" + j + "列");
+            tableHeader.setAlign("center");
+            tableHeaderList.add(tableHeader);
+        }
+
+        List<List<String>> tableData = new ArrayList<>();
+        for (int i = 0; i < 54812; i++) {
+            List<String> rowData = new ArrayList<>();
+            for (int j = 0; j < 20; j++) {
+                rowData.add("单元格" + i + "," + j);
+            }
+            tableData.add(rowData);
+        }
+
+        NomalExportExcel nomalExportExcel = new NomalExportExcel(tableHeaderList, tableData);
+
+        nomalExportExcel.export("D:\\test", "test");
+    }
 
     @Test
     public void test01() throws IOException {
@@ -145,6 +170,29 @@ public class TestExportExcel {
         exportExcel.drawTable(tableHeaderList, tableData, 1, 1);
         exportExcel.drawTable(tableHeaderList, tableData1, 1, 20);
         exportExcel.write("D:\\test.xlsx");
+    }
+
+    public static void main(String[] args) throws IOException {
+        List<TableHeader> tableHeaderList = new ArrayList<>();
+        for (int j = 0; j < 20; j++) {
+            TableHeader tableHeader = new TableHeader();
+            tableHeader.setHeaderText("第" + j + "列");
+            tableHeader.setAlign("center");
+            tableHeaderList.add(tableHeader);
+        }
+
+        List<List<String>> tableData = new ArrayList<>();
+        for (int i = 0; i < 54812; i++) {
+            List<String> rowData = new ArrayList<>();
+            for (int j = 0; j < 20; j++) {
+                rowData.add("单元格" + i + "," + j);
+            }
+            tableData.add(rowData);
+        }
+
+        NomalExportExcel nomalExportExcel = new NomalExportExcel(tableHeaderList, tableData);
+
+        nomalExportExcel.export("D:\\test", "test");
     }
 }
 

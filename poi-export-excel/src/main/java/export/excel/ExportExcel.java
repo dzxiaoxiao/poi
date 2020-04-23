@@ -90,13 +90,31 @@ public class ExportExcel<T> {
      * @return
      */
     public XSSFWorkbook createExcel(String sheetName) {
-        logger.info("=================开始创建Excel(" + sheetName + ")工作簿=================");
+        logger.info("==================================开始创建Excel(" + sheetName + ")工作簿");
         this.workBook = new XSSFWorkbook();
         this.workBook.createSheet(sheetName);
         this.sheet = this.workBook.getSheet(sheetName);
 
         this.sheet.setDefaultRowHeight(DEFULT_ROW_HEIGHT);
-        logger.info("=================(" + sheetName + ")工作簿创建完成=================");
+        logger.info("==================================(" + sheetName + ")工作簿创建完成");
+        return this.workBook;
+    }
+
+    /**
+     * 创建Excel
+     * @param sheetNum sheet总数
+     * @param sheetName sheet名称
+     * @return
+     */
+    public XSSFWorkbook createExcel(Integer sheetNum, String sheetName) {
+        logger.info("==================================开始创建Excel、Sheet");
+        this.workBook = new XSSFWorkbook();
+
+        for (int i = 0; i < sheetNum; i++) {
+            this.workBook.createSheet(sheetName + "(" + (i + 1) + ")");
+        }
+
+        logger.info("==================================Excel、Sheet创建完成");
         return this.workBook;
     }
 
@@ -108,7 +126,7 @@ public class ExportExcel<T> {
      * @return
      */
     public XSSFWorkbook drawTable(List<TableHeader> tableHeaderList, List<T> tableData) {
-        logger.info("=================开始绘制第" + (++tableCount) + "个表格=================");
+        logger.info("==================================开始绘制第" + (++tableCount) + "个表格");
         Long startTime = System.currentTimeMillis();
 
         this.tableHeaderList = tableHeaderList;
@@ -169,7 +187,7 @@ public class ExportExcel<T> {
         }
 
         Long endTime = System.currentTimeMillis();
-        logger.info("=================第" + tableCount + "个表格绘制完成。耗时" + (endTime - startTime) + "ms=================");
+        logger.info("==================================第" + tableCount + "个表格绘制完成。耗时" + (endTime - startTime) + "ms");
         return this.workBook;
     }
 
@@ -183,7 +201,7 @@ public class ExportExcel<T> {
      * @return
      */
     public XSSFWorkbook drawTable(List<TableHeader> tableHeaderList, List<T> tableData, Integer startRowIndex, Integer startColIndex) {
-        logger.info("=================开始绘制第" + (++tableCount) + "个表格=================");
+        logger.info("==================================开始绘制第" + (++tableCount) + "个表格");
         Long startTime = System.currentTimeMillis();
 
         this.tableHeaderList = tableHeaderList;
@@ -242,7 +260,7 @@ public class ExportExcel<T> {
         }
 
         Long endTime = System.currentTimeMillis();
-        logger.info("=================第" + tableCount + "个表格绘制完成。耗时" + (endTime - startTime) + "ms=================");
+        logger.info("==================================第" + tableCount + "个表格绘制完成。耗时" + (endTime - startTime) + "ms");
         return this.workBook;
     }
 
@@ -314,7 +332,7 @@ public class ExportExcel<T> {
      * 从表头下绘制表格
      */
     private void drawTableData(Integer startRowIndex, Integer startColIndex) {
-        logger.info("=================开始绘制第" + (tableCount) + "个表格中的数据=================");
+        logger.info("==================================开始绘制第" + (tableCount) + "个表格中的数据");
 
         List<TableHeader> tableHeaderColumnList = getTableHeaderColumn(this.tableHeaderList, new ArrayList<>());
         for (int i = 0; i < this.tableData.size(); i++) {
@@ -399,7 +417,7 @@ public class ExportExcel<T> {
             }
         }
 
-        logger.info("=================第" + (tableCount) + "个表格中的数据绘制完成=================");
+        logger.info("==================================第" + (tableCount) + "个表格中的数据绘制完成");
     }
 
     /**
@@ -847,7 +865,11 @@ public class ExportExcel<T> {
      * @throws IOException
      */
     public void write(String filePath) throws IOException {
-        this.workBook.write(new FileOutputStream(filePath));
+        FileOutputStream fos = new FileOutputStream(filePath);
+        this.workBook.write(fos);
+
+        fos.close();
+        this.workBook.close();
     }
 
     /*********************************************** get and set method***************************************************/
@@ -890,5 +912,13 @@ public class ExportExcel<T> {
 
     public void setNowMaxColNums(Integer nowMaxColNums) {
         this.nowMaxColNums = nowMaxColNums;
+    }
+
+    public XSSFSheet getSheet() {
+        return sheet;
+    }
+
+    public void setSheet(XSSFSheet sheet) {
+        this.sheet = sheet;
     }
 }
