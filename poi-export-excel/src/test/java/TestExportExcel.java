@@ -23,7 +23,7 @@ public class TestExportExcel {
         }
 
         List<List<String>> tableData = new ArrayList<>();
-        for (int i = 0; i < 54812; i++) {
+        for (int i = 0; i < 6000; i++) {
             List<String> rowData = new ArrayList<>();
             for (int j = 0; j < 20; j++) {
                 rowData.add("单元格" + i + "," + j);
@@ -170,29 +170,6 @@ public class TestExportExcel {
         exportExcel.drawTable(tableHeaderList, tableData, 1, 1);
         exportExcel.drawTable(tableHeaderList, tableData1, 1, 20);
         exportExcel.write("D:\\test.xlsx");
-    }
-
-    public static void main(String[] args) throws IOException {
-        List<TableHeader> tableHeaderList = new ArrayList<>();
-        for (int j = 0; j < 20; j++) {
-            TableHeader tableHeader = new TableHeader();
-            tableHeader.setHeaderText("第" + j + "列");
-            tableHeader.setAlign("center");
-            tableHeaderList.add(tableHeader);
-        }
-
-        List<List<String>> tableData = new ArrayList<>();
-        for (int i = 0; i < 54812; i++) {
-            List<String> rowData = new ArrayList<>();
-            for (int j = 0; j < 20; j++) {
-                rowData.add("单元格" + i + "," + j);
-            }
-            tableData.add(rowData);
-        }
-
-        NomalExportExcel nomalExportExcel = new NomalExportExcel(tableHeaderList, tableData);
-
-        nomalExportExcel.export("D:\\test", "test");
     }
 }
 

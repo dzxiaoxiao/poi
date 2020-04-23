@@ -52,7 +52,7 @@ public class NomalExportExcel<T> {
         List<List<T>> excelData = new ArrayList<>();
         List<T> sheetData = new ArrayList<>();
         for (int i = 0; i < this.tableData.size(); i++) {
-            if (i != 0 && i % 200 == 0) {
+            if (i != 0 && i % 100 == 0) {
                 excelData.add(sheetData);
                 sheetData = new ArrayList<>();
 
@@ -63,7 +63,7 @@ public class NomalExportExcel<T> {
             }
             sheetData.add(this.tableData.get(i));
 
-            if (i == this.tableData.size() - 1 && i % 200 != 0) {
+            if (i == this.tableData.size() - 1 && i % 100 != 0) {
                 excelData.add(sheetData);
                 allExcelData.add(excelData);
             }
@@ -84,13 +84,14 @@ public class NomalExportExcel<T> {
              */
             excelData = allExcelData.get(i);
             XSSFWorkbook workbook = exportExcel.createExcel(excelData.size(), fileName);
+            exportExcel.createTableHeaderFont();
+
             for (int j = 0; j < excelData.size(); j++) {
                 XSSFSheet sheet = workbook.getSheetAt(j);
                 sheet.setDefaultRowHeight((short) (255 * 2));
                 exportExcel.setSheet(sheet);
                 exportExcel.setNowMaxRowNums(0);
                 exportExcel.setNowMaxColNums(0);
-                exportExcel.createTableHeaderFont();
                 exportExcel.drawTable(this.tableHeaderList, excelData.get(j));
             }
 
@@ -121,6 +122,11 @@ public class NomalExportExcel<T> {
             parameters.setCompressionLevel(CompressionLevel.NORMAL); // 压缩级别
 
             String zipFilePath = fileDir + File.separator + fileName + ".zip";
+            File file = new File(zipFilePath);
+            if(file.exists()){
+                file.delete();
+            }
+
             ZipFile zipFile = new ZipFile(zipFilePath);
 
             File exportDir = new File(fileDir);
