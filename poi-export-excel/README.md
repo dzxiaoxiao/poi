@@ -5,13 +5,13 @@
 - 用ExportExcel实例对象的方法<method>createExcel</method>创建Excel对象
 
 - 画表格之前可以对表格进行设置样式
-> <method>createTableHeaderFont</method> 获取表头字体样式对象，对表头内容进行自定义字体样式
+> <method>createTableHeaderFont</method> 获取表头字体样式对象，对表头内容进行自定义字体样式 <br/>
 > <method>createTableBodyFont</method> 获取表体字体样式对象，对表体内容进行自定义字体样式
 > <method>setAddBorder</method> 设置表格是否添加边框
 > <method>setAddTableHeaderBorder</method> 设置表格的表头是否添加边框
 
 - 组装表头结构[对于多级表头会进行合并居中，如果是map或者实体类，field字段一定要匹配。否则取不到数据就会抛出异常]
-> @see TableHeader 表头对象 注：field支持多级取值 例如：a.b[n].c | a.b.c | a[n].b.c
+> TableHeader 表头对象 注：field支持多级取值 例如：a.b[n].c | a.b.c | a[n].b.c
 
 - 将表格填充至Excel
 > <method>drawTable</method> 这个方法提供了两个实现方式：
